@@ -1,3 +1,11 @@
+//======================================================================
+//
+// day91_pronlem1.go
+// -----------------
+// Advent of Code 2021.
+// Day 01, problem 1.
+//======================================================================
+
 package main
 
 import (
@@ -14,19 +22,30 @@ func main() {
 		fmt.Print(err)
 	}
 
+	// Get a list of strings from the input.
 	my_str := string(b)
 	var lines = strings.Split(my_str,"\n")
+	// Remove the extra empty element
+	var trunc_lines = lines[:len(lines) - 1]
+
+	// Process the values.
 	var evalue int
 	var prev int = 100000
 	var cnt int = 0
 
-	for i, elem := range lines {
+	for _, elem := range trunc_lines {
 		evalue, err = strconv.Atoi(elem)
-		fmt.Println(i, "-> ", evalue)
 		if evalue > prev {
 			cnt += 1
 		}
 		prev = evalue
 	}
+
+	fmt.Println("Solution to AoC 2021, day 01, problem 1")
+	fmt.Println("---------------------------------------")
 	fmt.Println("Number of increasing values: ", cnt)
+	fmt.Println("")
 }
+
+//======================================================================
+//======================================================================
