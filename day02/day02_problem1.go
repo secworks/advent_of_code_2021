@@ -23,35 +23,27 @@ type move struct {
 }
 
 
-func get_moves(fname string) ([]move, error) {
+func get_moves() []move {
 	var moves []move
 	var m move
 	var cmd string
 	var value int
 
-	file, e := os.Open(fname)
-	if e != nil {
-		fmt.Println("Error is = ",e)
-		return moves, e
-	}
-
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		s := strings.Split(scanner.Text(), " ")
 		cmd = s[0]
 		value, _ = strconv.Atoi(s[1])
 		m.command, m.value = cmd, value
 		moves = append(moves, m)
-
 	}
 
-	defer file.Close()
-	return moves, nil
+	return moves
 }
 
 
 func main() {
-	my_moves, _ := get_moves("./day02_input.txt")
+	my_moves := get_moves()
 
 	var distance int
 	var depth int
@@ -68,7 +60,6 @@ func main() {
 		if move.command == "down" {
 			depth += move.value
 		}
-
 	}
 
 	fmt.Println("Solution to AoC 2021, day 02, problem 1")
