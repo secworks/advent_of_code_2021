@@ -23,7 +23,7 @@ type move struct {
 }
 
 
-func get_moves(fname string) []move {
+func get_moves(fname string) ([]move, error) {
 	var moves []move
 	var m move
 	var cmd string
@@ -32,7 +32,7 @@ func get_moves(fname string) []move {
 	file, e := os.Open(fname)
 	if e != nil {
 		fmt.Println("Error is = ",e)
-		os.Exit(1)
+		return moves, e
 	}
 
 	scanner := bufio.NewScanner(file)
@@ -46,12 +46,12 @@ func get_moves(fname string) []move {
 	}
 
 	defer file.Close()
-	return moves
+	return moves, nil
 }
 
 
 func main() {
-	my_moves := get_moves("./day02_input.txt")
+	my_moves, _ := get_moves("./day02_input.txt")
 
 	var distance int
 	var depth int
