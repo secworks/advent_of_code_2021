@@ -30,7 +30,6 @@ func get_input() []string {
 
 
 func main() {
-	my_input := get_input()
 	var ones int;
 	var zeros int;
 	var num string
@@ -39,6 +38,8 @@ func main() {
 	var epsilon []string
 	var gamma_num int64
 	var epsilon_num int64
+
+	my_input := get_input()
 
 	for i := 0 ; i < len(my_input[0]) ; i++ {
 		ones = 0
