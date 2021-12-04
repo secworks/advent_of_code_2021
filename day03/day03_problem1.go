@@ -17,58 +17,58 @@ import (
 )
 
 
-type move struct {
-	command string
-	value int
-}
-
-
-func get_moves() []move {
-	var moves []move
-	var m move
-	var cmd string
-	var value int
+func get_input() []string {
+	var binstr []string
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
-		s := strings.Split(scanner.Text(), " ")
-		cmd = s[0]
-		value, _ = strconv.Atoi(s[1])
-		m.command, m.value = cmd, value
-		moves = append(moves, m)
+		s := strings.Split(scanner.Text(), "\n")
+		binstr = append(binstr, s[0])
 	}
-
-	return moves
+	return binstr
 }
 
 
 func main() {
-	my_moves := get_moves()
+	my_input := get_input()
+	var ones int;
+	var zeros int;
+	var num string
+	var ch string
+	var gamma []string
+	var epsilon []string
+	var gamma_num int64
+	var epsilon_num int64
 
-	var distance int
-	var depth int
-	var aim int
-
-	for _, move := range my_moves {
-		if move.command == "forward" {
-			depth += (aim * move.value)
-			distance += move.value
+	for i := 0 ; i < len(my_input[0]) ; i++ {
+		ones = 0
+		zeros = 0
+		for j := 0 ; j < len(my_input) ; j++ {
+			num = my_input[j]
+			ch = string(num[i])
+			if ch == "1" {
+				ones += 1
+			} else {
+				zeros += 1
+			}
 		}
-
-		if move.command == "up" {
-			aim -= move.value
-		}
-
-		if move.command == "down" {
-			aim += move.value
+		if ones > zeros {
+			gamma = append(gamma, string("1"))
+			epsilon = append(epsilon, string("0"))
+		} else {
+			gamma = append(gamma, string("0"))
+			epsilon = append(epsilon, string("1"))
 		}
 	}
 
-	fmt.Println("Solution to AoC 2021, day 02, problem 2")
+	gamma_num, _ = strconv.ParseInt(strings.Join(gamma, ""), 2, 64)
+	epsilon_num, _ = strconv.ParseInt(strings.Join(epsilon, ""), 2, 64)
+
+	fmt.Println("Solution to AoC 2021, day 03, problem 1")
 	fmt.Println("---------------------------------------")
-	fmt.Println("Final distance:", distance)
-	fmt.Println("Final depth:   ", depth)
-	fmt.Println("Solution:      ", distance * depth)
+	fmt.Println("gamma:  ", gamma,   "=", gamma_num)
+	fmt.Println("epslion:", epsilon, "=", epsilon_num)
+	fmt.Println("Answer: ", gamma_num * epsilon_num)
 	fmt.Println("")
 }
 
