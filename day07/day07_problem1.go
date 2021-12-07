@@ -3,7 +3,7 @@
 // day07_problem1.go
 // -----------------
 // Advent of Code 2021.
-// Day 06, problem 1.
+// Day 07, problem 1.
 //======================================================================
 
 package main
@@ -14,6 +14,7 @@ import (
 	"strings"
 	"bufio"
 	"strconv"
+	"sort"
 )
 
 
@@ -29,44 +30,39 @@ func get_input() []string {
 }
 
 
-func num_fish(fishes [9]int) int {
-	var num int = 0
-	for i := 0 ; i < len(fishes) ; i++ {
-		num += fishes[i]
-	}
-	return num
-}
-
-
-func next_day(prev_day [9]int) [9]int {
-	var next_day [9]int
-	for i := 0 ; i < (len(prev_day) - 1) ; i++ {
-		next_day[i] = prev_day[(i + 1)]
-		next_day[6] = prev_day[0] + prev_day[7]
-		next_day[8] = prev_day[0]
-	}
-	return next_day
-}
-
-
 func main() {
-	var days int = 256
-	var fishlist [9]int
+	var crablist []int
+	var fuel, minfuel, minpos int
 
 	my_input := get_input()
 	for i := 0 ; i < len(my_input) ; i++ {
 		num, _ := strconv.Atoi(my_input[i])
-		fishlist[num] += 1
+		crablist = append(crablist, num)
+	}
+	sort.Ints(crablist)
+
+	minpos = 0
+	minfuel = 100000000000
+	for _,pos := range crablist {
+		fuel = 0
+		for _,crabpos := range crablist {
+			if crabpos > pos {
+				fuel += (crabpos - pos)
+			}
+			if crabpos < pos {
+				fuel += (pos - crabpos)
+			}
+		}
+		if fuel < minfuel {
+			minfuel = fuel
+			minpos = pos
+		}
 	}
 
-	for d := 1 ; d <= days ; d++ {
-		fishlist = next_day(fishlist)
-	}
 
 	fmt.Println("Solution to AoC 2021, day 07, problem 1")
 	fmt.Println("---------------------------------------")
-	fmt.Println("Number of lanternfish after", days, "days:", num_fish(fishlist))
-	fmt.Println("")
+	fmt.Println("Minimal fuel", minfuel, "at position", minpos)
 }
 
 //======================================================================
