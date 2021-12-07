@@ -32,19 +32,25 @@ func get_input() []string {
 
 func get_fuel(start int, stop int) int {
 	var fuel int
+	var s, e int
+	var i int
 
 	if start == stop {
 		fuel = 0
-	}
+	} else {
+		if start > stop {
+			e = start
+			s = stop
+		} else {
+			e = stop
+			s = start
+		}
 
-	if start > stop {
-		fuel = int((start - stop) * (((start - stop) + 1) / 2))
+		fuel = 0
+		for i = 1 ; i <= (e - s) ; i++ {
+			fuel += i
+		}
 	}
-
-	if stop > start {
-		fuel = int((stop - start) * (((stop - start) + 1) / 2))
-	}
-	//	fmt.Println("start:", start, "stop:", stop, "fuel:", fuel)
 	return fuel
 }
 
@@ -60,7 +66,6 @@ func main() {
 		crablist = append(crablist, num)
 	}
 	sort.Ints(crablist)
-	fmt.Println(crablist)
 
 	minpos = 0
 	minfuel = 10000000000000000
