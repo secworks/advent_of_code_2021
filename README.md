@@ -10,7 +10,7 @@ Yes, this really is the year of [Go!](https://go.dev/)
 * [Day 03](https://adventofcode.com/2021/day/3): First problem completed
 * [Day 04](https://adventofcode.com/2021/day/4): Initial version started
 * [Day 05](https://adventofcode.com/2021/day/5): Initial version started
-* [Day 06](https://adventofcode.com/2021/day/6): First problem completed
+* [Day 06](https://adventofcode.com/2021/day/6): Both problems completed
 * [Day 07](https://adventofcode.com/2021/day/7): Not yet started
 * [Day 08](https://adventofcode.com/2021/day/1): Not yet started
 * [Day 09](https://adventofcode.com/2021/day/1): Not yet started
