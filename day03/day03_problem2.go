@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 	"bufio"
+	//	"reflect"
 	"strconv"
 )
 
@@ -25,48 +26,97 @@ func get_input() []string {
 }
 
 
-func main() {
-	var ones int;
-	var zeros int;
-	var num string
-	var ch string
-	var gamma []string
-	var epsilon []string
-	var gamma_num int64
-	var epsilon_num int64
+func get_match_list(pos int, prefer string, old_list []string) []string {
+	var new_list []string
 
-	my_input := get_input()
-
-	for i := 0 ; i < len(my_input[0]) ; i++ {
-		ones = 0
-		zeros = 0
-		for j := 0 ; j < len(my_input) ; j++ {
-			num = my_input[j]
-			ch = string(num[i])
-			if ch == "1" {
-				ones += 1
-			} else {
-				zeros += 1
-			}
+	for _, num := range(old_list) {
+		if string(num[pos]) == prefer {
+			new_list = append(new_list, num)
 		}
-		if ones > zeros {
-			gamma = append(gamma, string("1"))
-			epsilon = append(epsilon, string("0"))
+	}
+	return new_list
+}
+
+
+func get_most_common_bit(pos int, prefer string, num_list []string) string {
+	var ones, zeros int
+	var ch string
+
+	for _, num := range (num_list) {
+		ch = string(num[pos])
+		if ch == "1" {
+			ones += 1
 		} else {
-			gamma = append(gamma, string("0"))
-			epsilon = append(epsilon, string("1"))
+			zeros += 1
 		}
 	}
 
-	gamma_num, _ = strconv.ParseInt(strings.Join(gamma, ""), 2, 64)
-	epsilon_num, _ = strconv.ParseInt(strings.Join(epsilon, ""), 2, 64)
+	if ones == zeros {
+		return prefer
+	} else if ones > zeros {
+		return "1"
+	} else {
+		return "0"
+	}
+}
+
+
+func get_least_common_bit(pos int, prefer string, num_list []string) string {
+	var ones, zeros int
+	var ch string
+
+	for _, num := range (num_list) {
+		ch = string(num[pos])
+		if ch == "1" {
+			ones += 1
+		} else {
+			zeros += 1
+		}
+	}
+
+	if ones == zeros {
+		return prefer
+	} else if ones < zeros {
+		return "1"
+	} else {
+		return "0"
+	}
+}
+
+
+func main() {
+	my_input := get_input()
+
+	var oxygen_list []string
+	oxygen_list = append(oxygen_list, my_input...)
+
+	var bit_index int
+	var most_common string
+	for len(oxygen_list) > 1 {
+		most_common = get_most_common_bit(bit_index, "1", oxygen_list)
+		oxygen_list = get_match_list(bit_index, most_common, oxygen_list)
+		bit_index += 1
+	}
+
+	var co2_list []string
+	co2_list = append(co2_list, my_input...)
+	var least_common string
+	bit_index = 0
+	for len(co2_list) > 1 {
+		least_common = get_least_common_bit(bit_index, "0", co2_list)
+		co2_list = get_match_list(bit_index, least_common, co2_list)
+		bit_index += 1
+	}
+
+	var oxygen_num, co2_num int64
+	oxygen_num, _ = strconv.ParseInt(oxygen_list[0], 2, 32)
+	co2_num, _ = strconv.ParseInt(co2_list[0], 2, 32)
 
 	fmt.Println("Solution to AoC 2021, day 03, problem 2")
 	fmt.Println("---------------------------------------")
-	fmt.Println("gamma:  ", gamma,   "=", gamma_num)
-	fmt.Println("epslion:", epsilon, "=", epsilon_num)
-	fmt.Println("Answer: ", gamma_num * epsilon_num)
-	fmt.Println("")
+	fmt.Println("oxygen_number", oxygen_list, "=", oxygen_num)
+	fmt.Println("co2_number   ", co2_list, "=", co2_num)
+	fmt.Println("Life support rating", oxygen_num * co2_num)
 }
 
 //======================================================================
