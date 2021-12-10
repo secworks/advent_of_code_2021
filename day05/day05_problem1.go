@@ -41,10 +41,19 @@ func get_lines(input []string) []line {
 	//	fmt.Println("len(input):", len(input))
 
 	for _, line := range(input) {
-		l.x1, _ = strconv.Atoi(string(line[0]))
-		l.y1, _ = strconv.Atoi(string(line[2]))
-		l.x2, _ = strconv.Atoi(string(line[7]))
-		l.y2, _ = strconv.Atoi(string(line[9]))
+		points := strings.Split(line, " -> ")
+		p1 :=strings.Split(points[0], ",")
+		p2 :=strings.Split(points[1], ",")
+
+		// fmt.Println("line:", i, "points:", points, "p1:", p1, "p2:", p2)
+
+		l.x1, _ = strconv.Atoi(string(p1[0]))
+		l.y1, _ = strconv.Atoi(string(p1[1]))
+		l.x2, _ = strconv.Atoi(string(p2[0]))
+		l.y2, _ = strconv.Atoi(string(p2[1]))
+
+		// fmt.Println("line:", i, "x1:", l.x1, "y1:", l.y1, "x2:", l.x2, "y2:", l.y2)
+
 		my_lines = append(my_lines, l)
 	}
 	return my_lines
@@ -102,7 +111,6 @@ func main() {
 
 	fmt.Println("Solution to AoC 2021, day 05, problem 1")
 	fmt.Println("---------------------------------------")
-	fmt.Println("my_lines:", my_lines)
 	fmt.Println("xmin", xmin, "xmax", xmax)
 	fmt.Println("ymin", ymin, "ymax", ymax)
 	fmt.Println("")
