@@ -50,13 +50,61 @@ func get_lines(input []string) []line {
 	return my_lines
 }
 
+
+func get_dimensions(lines []line) (int, int, int, int) {
+	var xmin = 1000000
+	var xmax = 0
+	var ymin = 1000000
+	var ymax = 0
+	for _, line := range lines {
+		if line.x1 < xmin {
+			xmin = line.x1
+		}
+
+		if line.x1 > xmax {
+			xmax = line.x1
+		}
+
+		if line.x2 < xmin {
+			xmin = line.x2
+		}
+
+		if line.x2 > xmax {
+			xmax = line.x2
+		}
+
+		if line.y1 < ymin {
+			ymin = line.y1
+		}
+
+		if line.y1 > ymax {
+			ymax = line.y1
+		}
+
+		if line.y2 < ymin {
+			ymin = line.y2
+		}
+
+		if line.y2 > ymax {
+			ymax = line.y2
+		}
+	}
+	return xmin, xmax, ymin, ymax
+}
+
+
 func main() {
 	my_input := get_input()
 	my_lines := get_lines(my_input)
+	xmin, xmax, ymin, ymax := get_dimensions(my_lines)
+
+
 
 	fmt.Println("Solution to AoC 2021, day 05, problem 1")
 	fmt.Println("---------------------------------------")
 	fmt.Println("my_lines:", my_lines)
+	fmt.Println("xmin", xmin, "xmax", xmax)
+	fmt.Println("ymin", ymin, "ymax", ymax)
 	fmt.Println("")
 }
 
