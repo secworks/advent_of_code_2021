@@ -102,12 +102,52 @@ func get_dimensions(lines []line) (int, int, int, int) {
 }
 
 
+func print_area(area [][]int) {
+	fmt.Println("Printing the area:")
+	fmt.Println("------------------")
+
+	for _, row := range(area) {
+		fmt.Println(row)
+	}
+	fmt.Println("")
+}
+
+
+func create_area(xmax, ymax int) [][]int {
+	area := make([][]int, (ymax + 1))
+	for i := range area {
+		area[i] = make([]int, (xmax + 1))
+	}
+	return area
+}
+
+
+func draw_line(a [][]int) {
+	var i int
+	for i = 0 ; i < 7 ; i++ {
+		a[5][i] += 1
+	}
+}
+
+
+func draw_rectlines(lines []line, area [][]int) {
+	for _, line := range lines {
+		if (line.x1 == line.x2) || (line.y1 == line.y2) {
+			draw_line(area)
+		}
+	}
+}
+
+
 func main() {
 	my_input := get_input()
 	my_lines := get_lines(my_input)
 	xmin, xmax, ymin, ymax := get_dimensions(my_lines)
 
-
+	my_area := create_area(xmax, ymax)
+	print_area(my_area)
+	draw_rectlines(my_lines, my_area)
+	print_area(my_area)
 
 	fmt.Println("Solution to AoC 2021, day 05, problem 1")
 	fmt.Println("---------------------------------------")
