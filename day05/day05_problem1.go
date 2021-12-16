@@ -122,10 +122,32 @@ func create_area(xmax, ymax int) [][]int {
 }
 
 
-func draw_line(a [][]int) {
+func draw_rectline(line line, area [][]int) {
 	var i int
-	for i = 0 ; i < 7 ; i++ {
-		a[5][i] += 1
+	var start, stop int
+
+	if line.x1 == line.x2 {
+		if line.y1 > line.y2 {
+			start = line.y2
+			stop = line.y1
+		} else {
+			start = line.y1
+			stop = line.y2
+		}
+		for i = start ; i <= stop ; i++ {
+			area[i][line.x1] += 1
+		}
+	} else {
+		if line.x1 > line.x2 {
+			start = line.x2
+			stop = line.x1
+		} else {
+			start = line.x1
+			stop = line.x2
+		}
+		for i = start ; i <= stop ; i++ {
+			area[line.y1][i] += 1
+		}
 	}
 }
 
@@ -133,9 +155,25 @@ func draw_line(a [][]int) {
 func draw_rectlines(lines []line, area [][]int) {
 	for _, line := range lines {
 		if (line.x1 == line.x2) || (line.y1 == line.y2) {
-			draw_line(area)
+			draw_rectline(line, area)
 		}
 	}
+}
+
+
+func get_multiple_crossings(area [][]int, xdim int, ydim int) int {
+	var num_points int
+	var x, y int
+
+	for y = 0 ; y <= ydim ; y++ {
+		for x = 0 ; x <= xdim ; x++ {
+			if area[y][x] > 1 {
+				num_points += 1
+			}
+		}
+	}
+
+	return num_points
 }
 
 
@@ -145,16 +183,18 @@ func main() {
 	xmin, xmax, ymin, ymax := get_dimensions(my_lines)
 
 	my_area := create_area(xmax, ymax)
-	print_area(my_area)
 	draw_rectlines(my_lines, my_area)
-	print_area(my_area)
+
+	num_points := get_multiple_crossings(my_area, xmax, ymax)
 
 	fmt.Println("Solution to AoC 2021, day 05, problem 1")
 	fmt.Println("---------------------------------------")
 	fmt.Println("xmin", xmin, "xmax", xmax)
 	fmt.Println("ymin", ymin, "ymax", ymax)
+	fmt.Println("Number of points with multipe overlap:", num_points)
 	fmt.Println("")
 }
+
 
 //======================================================================
 //======================================================================
